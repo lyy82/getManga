@@ -1,6 +1,4 @@
 import requests, re
-from bs4 import BeautifulSoup
-import bs4
 import os
 import urllib
 
