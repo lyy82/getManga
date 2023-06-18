@@ -79,7 +79,7 @@ exceptionList = []
 
 def reptileMain(url,hua):
     leftPictureUrl = "https://p1.fzacg.com/"
-
+    hua2 = list(map(int, hua.split()))
     try:            #创建文件夹存放
         os.mkdir('image')
     except:
@@ -90,26 +90,27 @@ def reptileMain(url,hua):
     #for chapterNum in chapterNumList:
         #page = 0
     ######改章节##################
-    picPath = 'image/' + str(hua)  #章节文件路径
+    for i in hua2:
+        picPath = 'image/' + str(i)  #章节文件路径
 
-    try:
-        ######改章节##################
-        page = 1
-        html = getHTML(updataUrl(url,hua,page))   #获取页面信息
+        try:
+            ######改章节##################
+            page = 1
+            html = getHTML(updataUrl(url,i,page))   #获取页面信息
 
-        # pictureUrl = leftPictureUrl + fillNeedInfo(url, html)
-        pictureUrl = fillNeedInfo(html)
-        # print(pictureUrl)
-        for value in pictureUrl:#单章最多500页
-            # print(value)
-            try:        #为每章创建目录
-                os.mkdir(picPath)
-            except Exception as e:
-                pass
-            saveInfo(value, picPath, hua, page)
-            page += 1
-    except Exception as e:
-        exceptionList.append(e) #记录错误信息
+            # pictureUrl = leftPictureUrl + fillNeedInfo(url, html)
+            pictureUrl = fillNeedInfo(html)
+            # print(pictureUrl)
+            for value in pictureUrl:#单章最多500页
+                # print(value)
+                try:        #为每章创建目录
+                    os.mkdir(picPath)
+                except Exception as e:
+                    pass
+                saveInfo(value, picPath, i, page)
+                page += 1
+        except Exception as e:
+            exceptionList.append(e) #记录错误信息
 
 def main():
     url = input("请输入风之动漫漫画目录网址：")
