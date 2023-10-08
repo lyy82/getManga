@@ -79,18 +79,13 @@ def getChapterNum(url):
 exceptionList = []
 
 def reptileMain(url,hua):
-    # leftPictureUrl = "https://p1.fzacg.com/"
-    # hua2 = list(map(int, hua.split()))
+    
     hua2 = hua.split()
-    try:            #创建文件夹存放
+    try:            
+        #创建文件夹存放
         os.mkdir('image')
     except:
         pass
-
-    # chapterNumList = getChapterNum(url)    #章节列表
-
-    #for chapterNum in chapterNumList:
-        #page = 0
     ######改章节##################
     for i in hua2:
         picPath = 'image/' + str(i)  #章节文件路径
@@ -100,12 +95,11 @@ def reptileMain(url,hua):
             page = 1
             html = getHTML(updataUrl(url,i,page))   #获取页面信息
 
-            # pictureUrl = leftPictureUrl + fillNeedInfo(url, html)
             pictureUrl = fillNeedInfo(html)
-            # print(pictureUrl)
+            
             for value in pictureUrl:#单章最多500页
-                # print(value)
-                try:        #为每章创建目录
+                #为每章创建目录
+                try: 
                     os.mkdir(picPath)
                 except Exception as e:
                     pass
@@ -116,6 +110,7 @@ def reptileMain(url,hua):
 
 def main():
     url = input("请输入风之动漫漫画目录网址：")
+    # 例子：1092 1093
     hua = input("请输入话：")
     print('开始爬取,爬取文件将新建文件目录image,如果已经存在，请注意文件存放')
     reptileMain(url,hua)
