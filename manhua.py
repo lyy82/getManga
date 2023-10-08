@@ -24,14 +24,13 @@ def fillNeedInfo(html):
 
     needText = needText[1]
 
-    # 获得检索的关键字
-    dirText = needText[22:30]
-    # 寻找网页里所有带路径+jpg的地方
+    dirText = needText[21:29]
+
     jpgText = re.findall(dirText+"(.*?)"+'.jpg',text)
     jpgText.pop(0)
 
     for value in jpgText:
-        value = needText[:21] + '/' + dirText + value + ".jpg"
+        value = needText[:20] + '/' + dirText + value + ".jpg"
         urlList.append(value)
 
     return urlList
@@ -67,7 +66,7 @@ def updataUrl(url, chapter, page):
     url += str(page)
 
     url += '.html'
-    # print(url)
+    print(url)
     return url
 
 def getChapterNum(url):
@@ -78,47 +77,42 @@ def getChapterNum(url):
 
 exceptionList = []
 
-def reptileMain(url,hua):
-    # leftPictureUrl = "https://p1.fzacg.com/"
-    # hua2 = list(map(int, hua.split()))
-    hua2 = hua.split()
+def reptileMain(url):
+    leftPictureUrl = "https://p1.fzacg.com/"
+
     try:            #创建文件夹存放
         os.mkdir('image')
     except:
         pass
 
-    # chapterNumList = getChapterNum(url)    #章节列表
+    chapterNumList = getChapterNum(url)     #章节列表
 
-    #for chapterNum in chapterNumList:
-        #page = 0
-    ######改章节##################
-    for i in hua2:
-        picPath = 'image/' + str(i)  #章节文件路径
-
+    for chapterNum in chapterNumList:
+        
+        picPath = 'image/' + str(chapterNum[0])      #章节文件路径
+        
         try:
-            ######改章节##################
-            page = 1
-            html = getHTML(updataUrl(url,i,page))   #获取页面信息
+            page =1
+            html = getHTML(updataUrl(url,chapterNum[0],page))   #获取页面信息
+            # if html == 0:           #若404则html=0,此时跳出循环  page超出页数
+            #     break
 
             # pictureUrl = leftPictureUrl + fillNeedInfo(url, html)
             pictureUrl = fillNeedInfo(html)
-            # print(pictureUrl)
             for value in pictureUrl:#单章最多500页
-                # print(value)
                 try:        #为每章创建目录
                     os.mkdir(picPath)
                 except Exception as e:
                     pass
-                saveInfo(value, picPath, i, page)
+                saveInfo(value, picPath, chapterNum[0], page)
                 page += 1
         except Exception as e:
             exceptionList.append(e) #记录错误信息
 
 def main():
     url = input("请输入风之动漫漫画目录网址：")
-    hua = input("请输入话：")
     print('开始爬取,爬取文件将新建文件目录image,如果已经存在，请注意文件存放')
-    reptileMain(url,hua)
+    reptileMain(url)
     print('爬取成功')
 main()
 print('程序出现以下错误：')
@@ -126,3 +120,4 @@ for value in exceptionList:
     print(value)
 
 over = input("程序运行结束，请敲回车结束或之间关闭")
+
