@@ -8,6 +8,8 @@ headers = {
     'cookie': "picHost=p5.fzacg.com; Hm_lvt_cb51090e9c10cda176f81a7fa92c3dfc=1545054252,1545054291,1545054381,1545054404; Hm_lpvt_cb51090e9c10cda176f81a7fa92c3dfc=1545054475"
 }
 
+exceptionList = []
+
 def getHTML(url):
     try:
         r = requests.get(url,headers = headers, timeout = 30)
@@ -75,8 +77,6 @@ def getChapterNum(url):
     chapterNumList = re.findall('a href="(.*?)/" title="(.*?)"',text)
     chapterNumList.pop(0)
     return chapterNumList
-
-exceptionList = []
 
 def reptileMain(url,hua):
     
